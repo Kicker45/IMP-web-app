@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>ESP32 Web BLE App for IMP</title>
+    <title>ESP32 Web BLE App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -32,7 +32,7 @@
             </div>
 
             <div class="card">
-                <h2>ALL LEDs</h2>
+                <h2>Control GPIO 2</h2>
                 <button id="onButton" class="onButton">ON</button>
                 <button id="offButton" class="offButton">OFF</button>
                 <p class="gray-label">Last value sent: <span id="valueSent"></span></p>
@@ -68,6 +68,10 @@
         </div>
     </div>
 
+    <div class="footer">
+        <p><a href="https://randomnerdtutorials.com/">Created by RandomNerdTutorials.com</a></p>
+        <p><a href="https://RandomNerdTutorials.com/esp32-web-bluetooth/">Read the full project here.</a></p>
+    </div>
 </body>
 <script>
     // DOM Elements
@@ -123,9 +127,10 @@
     program4Button.addEventListener('click', () => writeOnCharacteristic(4));
 
     // Speed Control Button Click Event Listeners
-    slowButton.addEventListener('click', () => sendCommand('speed', 'slow'));
-    normalButton.addEventListener('click', () => sendCommand('speed', 'normal'));
-    fastButton.addEventListener('click', () => sendCommand('speed', 'fast'));
+    slowButton.addEventListener('click', () => writeOnCharacteristic(5));
+    normalButton.addEventListener('click', () => writeOnCharacteristic(6));
+    fastButton.addEventListener('click', () => writeOnCharacteristic(7));
+
 
     // Display elements for last selected program and speed
     const lastProgramContainer = document.getElementById('lastProgram');
