@@ -32,7 +32,7 @@
             </div>
 
             <div class="card">
-                <h2>Control GPIO 2</h2>
+                <h2>All LDEs</h2>
                 <button id="onButton" class="onButton">ON</button>
                 <button id="offButton" class="offButton">OFF</button>
                 <p class="gray-label">Last value sent: <span id="valueSent"></span></p>
@@ -50,7 +50,6 @@
                     3</button>
                 <button id="program4Button" class="programButton" onclick="sendCommand('program', 'program4')">Program
                     4</button>
-                <p class="gray-label">Last program selected: <span id="lastProgram"></span></p>
 
             </div>
         </div>
@@ -59,19 +58,13 @@
         <div class="card-grid">
             <div class="card">
                 <h2>Speed Control</h2>
-                <button id="slowButton" class="speedButton" onclick="sendCommand('speed', 'slow')">Slow</button>
-                <button id="normalButton" class="speedButton" onclick="sendCommand('speed', 'normal')">Normal</button>
-                <button id="fastButton" class="speedButton" onclick="sendCommand('speed', 'fast')">Fast</button>
-                <p class="gray-label">Last speed selected: <span id="lastSpeed"></span></p>
-
+                <button id="slowButton" class="speedButton" onclick="sendCommand('speed', 'slow5')">Slow</button>
+                <button id="normalButton" class="speedButton" onclick="sendCommand('speed', 'normal6')">Normal</button>
+                <button id="fastButton" class="speedButton" onclick="sendCommand('speed', 'fast7')">Fast</button>
             </div>
         </div>
     </div>
 
-    <div class="footer">
-        <p><a href="https://randomnerdtutorials.com/">Created by RandomNerdTutorials.com</a></p>
-        <p><a href="https://RandomNerdTutorials.com/esp32-web-bluetooth/">Read the full project here.</a></p>
-    </div>
 </body>
 <script>
     // DOM Elements
@@ -209,25 +202,26 @@
     }
 
     function writeOnCharacteristic(value) {
-        if (bleServer && bleServer.connected) {
-            bleServiceFound.getCharacteristic(ledCharacteristic)
-                .then(characteristic => {
-                    console.log("Found the LED characteristic: ", characteristic.uuid);
-                    const data = new Uint8Array([value]);
-                    return characteristic.writeValue(data);
-                })
-                .then(() => {
-                    latestValueSent.innerHTML = value;
-                    console.log("Value written to LEDcharacteristic:", value);
-                })
-                .catch(error => {
-                    console.error("Error writing to the LED characteristic: ", error);
-                });
-        } else {
-            console.error("Bluetooth is not connected. Cannot write to characteristic.")
-            window.alert("Bluetooth is not connected. Cannot write to characteristic. \n Connect to BLE first!")
-        }
+    if (bleServer && bleServer.connected) {
+        bleServiceFound.getCharacteristic(ledCharacteristic)
+            .then(characteristic => {
+                console.log("Found the LED characteristic: ", characteristic.uuid);
+                const data = new Uint8Array([value]);
+                return characteristic.writeValue(data);
+            })
+            .then(() => {
+                latestValueSent.innerHTML = value;
+                console.log("Value written to LED characteristic:", value);
+            })
+            .catch(error => {
+                console.error("Error writing to the LED characteristic: ", error);
+            });
+    } else {
+        console.error("Bluetooth is not connected. Cannot write to characteristic.")
+        window.alert("Bluetooth is not connected. Cannot write to characteristic. \n Connect to BLE first!")
     }
+}
+
 
     function disconnectDevice() {
         console.log("Disconnect Device.");
@@ -289,7 +283,7 @@
         if (commandType === 'program') {
             return parseInt(commandValue.charAt(commandValue.length - 1));
         } else if (commandType === 'speed') {
-            return parseInt(commandValue.charAt(commandValue.length - 1)) + 5;
+            return parseInt(commandValue.charAt(commandValue.length - 1));
         }
         return 0; // Default value if not recognized
     }
